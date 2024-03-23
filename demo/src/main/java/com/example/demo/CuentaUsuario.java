@@ -36,7 +36,7 @@ public class CuentaUsuario {
         return rolUsuario;
     }
 
-    public Map<String, List<String>> getDatosUsuarios(){
+    public Map<String, List<String>> getDatosUsuario(){
         return datosUsuario;
     }
 

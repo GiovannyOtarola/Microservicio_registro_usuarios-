@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 
+
+
 @RestController
 public class CuentaUsuarioController {
     private List<CuentaUsuario> cuentaUsuarios = new ArrayList<>();
@@ -63,5 +65,18 @@ public class CuentaUsuarioController {
     }
 
     
-    
+    @GetMapping("/cuentaUsuarios/{idCuentaUsuario}/listaDatosUsuario/{nombreRol}")
+    public ResponseEntity<?> listarDatos(@PathVariable("idCuentaUsuario") Integer idCuentaUsuario, @PathVariable("nombreRol") String nombreRol) {
+    for (CuentaUsuario cuentaUsuario : cuentaUsuarios) {
+        if (cuentaUsuario.getId() == idCuentaUsuario) {
+            Map<String, List<String>> datosUsuarioMap = cuentaUsuario.getDatosUsuario();
+            if (datosUsuarioMap.containsKey(nombreRol)) {
+                return ResponseEntity.ok(datosUsuarioMap.get(nombreRol));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se pueden Listar los datos del usuario porque no corresponde a ese rol.");
+            }
+        }
+    }
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró ninguna cuenta de usuario con el ID proporcionado.");
+    }
 }
